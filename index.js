@@ -1,17 +1,47 @@
 var Hapi = require('hapi');
+var Ejs = require('ejs');
 
-// Create a server with a host and port
-var server = Hapi.createServer('localhost', 8000);
+// load config
+var Config = require('./config')
 
-// Add the route
-server.route({
-  method: 'GET',
-  path: '/hello',
-  handler: function (request, reply) {
+// load controllers
+var blog = require('./controllers/blog')
 
-    reply('hello world');
+// configure and start hapi
+var hapiConfig = {
+  debug: {
+    request: ['error']
+  },
+  views: {
+    engines: {
+      ejs: {
+        module: Ejs
+      }
+    },
+    path: 'views'
+  }
+};
+var server = Hapi.createServer(Config.server.bind, Config.server.port, hapiConfig);
+
+// add mysql support
+server.pack.require('hapi-mysql', Config.mysql, function(err) {
+  if (err) {
+    console.error(err);
+    throw err;
   }
 });
+
+server.route({
+  method: 'GET',
+  path: '/',
+  handler: blog.index
+});
+server.route({
+  method: 'GET',
+  path: '/blog/{year}/{month}/{date}/{slug}',
+  handler: blog.single
+});
+
 
 // Start the server
 server.start();

@@ -10,6 +10,9 @@
   "author": "",
   "license": "BSD",
   "dependencies": {
-    "hapi": "~2.1.1"
+    "hapi": "~2.1.1",
+    "ejs": "~0.8.5",
+    "mysql": "~2.0.1",
+    "hapi-mysql": "0.0.0"
   }
 }
