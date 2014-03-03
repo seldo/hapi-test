@@ -1,8 +1,19 @@
 <% include layouts/header %>
-<div class="item">
-  <h1><%= item.title %></h1>
-  <div class="body">
-    <%- item.body %>
+<div id="index">
+  <ul>
+  <% for(var i = 0; i < index.length; i++) {
+    var item = index[i]
+    %>
+    <li><a href="/y/m/d/<%= item.slug %>"><%= item.title %></a></li>
+  <% } %>
+  </ul>
+</div>
+<div class="items" data-next-slug="<%= entry.nextSlug %>">
+  <div class="item">
+    <h1><%= entry.title %></h1>
+    <div class="body">
+      <%- entry.body %>
+    </div>
   </div>
 </div>
 <% include layouts/footer %>
