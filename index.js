@@ -31,6 +31,7 @@ server.pack.require('hapi-mysql', Config.mysql, function(err) {
   }
 });
 
+// routes
 server.route({
   method: 'GET',
   path: '/',
@@ -42,6 +43,14 @@ server.route({
   handler: blog.single
 });
 
+// static files
+server.route({
+  method: 'GET',
+  path: '/static/{path*}',
+  handler: {
+    directory: { path: './public', listing: false, index: true }
+  }
+});
 
 // Start the server
 server.start();
